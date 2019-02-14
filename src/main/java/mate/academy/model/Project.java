@@ -1,23 +1,24 @@
 package mate.academy.model;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 
 public class Project {
     private int id;
     private String name;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Date startDate;
+    private Date endDate;
     private List<Developer> developers;
-    private String company;
-    private String customer;
+    private Company company;
+    private Customer customer;
     private BigDecimal cost;
 
     public Project() {
     }
 
-    public Project(String name, LocalDate startDate, LocalDate endDate, BigDecimal cost) {
+    public Project(String name, Date startDate, Date endDate, BigDecimal cost) {
         this.name = name;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -40,19 +41,19 @@ public class Project {
         this.name = name;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
@@ -64,27 +65,41 @@ public class Project {
         this.developers = developers;
     }
 
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(String customer) {
-        this.customer = customer;
-    }
-
     public BigDecimal getCost() {
         return cost;
     }
 
     public void setCost(BigDecimal cost) {
         this.cost = cost;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", developers=" + developers +
+                ", company=" + company +
+                ", customer=" + customer +
+                ", cost=" + cost +
+                '}';
     }
 }

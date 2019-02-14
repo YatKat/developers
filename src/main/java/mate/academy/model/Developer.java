@@ -2,14 +2,23 @@ package mate.academy.model;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 public class Developer {
     private int id;
     private String name;
     private int age;
     private Sex sex;
-    private Map<String, String> skills;
+
+    public List<Skills> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(List<Skills> skills) {
+        this.skills = skills;
+    }
+
+    private List<Skills> skills;
     private List<Project> projects;
     private BigDecimal salary;
 
@@ -55,14 +64,6 @@ public class Developer {
         this.sex = sex;
     }
 
-    public Map<String, String> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(Map<String, String> skills) {
-        this.skills = skills;
-    }
-
     public List<Project> getProjects() {
         return projects;
     }
@@ -84,4 +85,16 @@ public class Developer {
         FEMALE
     }
 
+    @Override
+    public String toString() {
+        return "Developer{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", sex=" + sex +
+                ", skills=" + skills +
+                ", projects=" + projects +
+                ", salary=" + salary +
+                '}';
+    }
 }

@@ -13,7 +13,7 @@ public interface ProjectDao {
 
     List<Project> getAllProj();
 
-    boolean createProj(Project project);
+    int createProj(Project project);
 
     void updateProj(Project project);
 

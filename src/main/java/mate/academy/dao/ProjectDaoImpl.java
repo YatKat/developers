@@ -1,8 +1,10 @@
 package mate.academy.dao;
 
+import mate.academy.model.Developer;
 import mate.academy.model.Project;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProjectDaoImpl extends AbstractDao implements ProjectDao {
@@ -26,12 +28,40 @@ public class ProjectDaoImpl extends AbstractDao implements ProjectDao {
 
     @Override
     public Project getProjectById(int id) {
-        return null;
+        String sql = "SELECT * FROM projects WHERE id = ?";
+        Project project = new Project();
+        try {
+            prepStatement = connection.prepareStatement(sql);
+            prepStatement.setInt(1, id);
+            resultSet = prepStatement.executeQuery();
+            while(resultSet.next()){
+                project.setId(id);
+                project.setName(resultSet.getString("name"));
+                project.setStartDate(resultSet.getDate("startDate"));
+                project.setEndDate(resultSet.getDate("endDate"));
+                project.setCost(resultSet.getBigDecimal("cost"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return project;
     }
 
     @Override
     public int getProjectId(Project project) {
-        return 0;
+        int id = 0;
+        String sql = "SELECT id FROM projects WHERE name = ?";
+        try {
+            prepStatement = connection.prepareStatement(sql);
+            prepStatement.setString(1, project.getName());
+            resultSet = prepStatement.executeQuery();
+            while(resultSet.next()){
+                id = (resultSet.getInt("id"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
     }
 
     @Override
@@ -41,23 +71,42 @@ public class ProjectDaoImpl extends AbstractDao implements ProjectDao {
 
     @Override
     public List<Project> getAllProj() {
-        return null;
+        List<Project> list = new ArrayList<>();
+        String sql = "SELECT * FROM projects";
+        try {
+            prepStatement = connection.prepareStatement(sql);
+            resultSet = prepStatement.executeQuery();
+            while (resultSet.next()){
+                Project project = new Project();
+                project.setId(resultSet.getInt("id"));
+                project.setName(resultSet.getString("name"));
+                project.setStartDate(resultSet.getDate("startDate"));
+                project.setEndDate(resultSet.getDate("endDate"));
+                project.setCost(resultSet.getBigDecimal("cost"));
+                list.add(project);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
     }
 
     @Override
-    public boolean createProj(Project project) {
+    public int createProj(Project project) {
+        int id = 0;
         String sql = "INSERT INTO projects (name, startDate, endDate, cost) VALUES(?, ?, ?, ?)";
         try {
             prepStatement = connection.prepareStatement(sql);
             prepStatement.setString(1, project.getName());
-            prepStatement.setString(2, project.getStartDate().toString());
-            prepStatement.setString(3, project.getEndDate().toString());
+            prepStatement.setDate(2, project.getStartDate());
+            prepStatement.setDate(3, project.getEndDate());
             prepStatement.setBigDecimal(4, project.getCost());
-            return prepStatement.execute();
+            prepStatement.execute();
+            id = getProjectId(project);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return id;
     }
 
     @Override
@@ -69,4 +118,22 @@ public class ProjectDaoImpl extends AbstractDao implements ProjectDao {
     public void deleteProj(Project project) {
 
     }
+
+    public List<Developer> getDevelopersOnProject(Project project){
+        String sql = "SELECT dev_id FROM devinfo WHERE project_id = ?";
+        List<Developer> developers = new ArrayList<>();
+        try {
+            prepStatement = connection.prepareStatement(sql);
+            prepStatement.setInt(1, project.getId());
+            resultSet = prepStatement.executeQuery();
+            while(resultSet.next()){
+                developers.add(new DeveloperDaoImpl(connection)
+                        .getDevById(resultSet.getInt("dev_id")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return developers;
+    }
+
 }

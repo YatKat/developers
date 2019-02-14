@@ -29,4 +29,12 @@ public class ConnectionUtil {
     public static Connection getConnection() {
         return connection;
     }
+
+    public static void closeConnection(){
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

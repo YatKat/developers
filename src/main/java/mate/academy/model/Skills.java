@@ -4,6 +4,7 @@ public class Skills {
     private  int id;
     private  String language;
     private  String level;
+    private Developer developer;
 
     public Skills() {
     }
@@ -35,5 +36,13 @@ public class Skills {
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public Developer getDeveloper() {
+        return developer;
+    }
+
+    public void setDeveloper(Developer developer) {
+        this.developer = developer;
     }
 }
